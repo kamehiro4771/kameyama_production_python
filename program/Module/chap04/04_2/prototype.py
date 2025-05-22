@@ -9,21 +9,17 @@ class Pityna:
         #Pitynaオブジェクトの名前をインスタンス変数に代入
         self.name = name
         #Responderオブジェクトを生成してインスタンス変数に代入
-        self.responder = Responder('Repeat')
+        self.responder =Responder('Repeat')
     
     def dialogue(self, input):
         """応答オブジェクトのresponse()を呼び出して応答文字列を取得する
-
         Args:
-
-
-        Args:
-            input(str):ユーザーの発言
+                i nput(str):ユーザーの発言
 
         Returns:
-            str:応答文字列
+                 str:応答文字列
         """
-        #response()メソッドを実行し、戻り値（応答文字列をそのまま返す
+        #response()メソッドを実行し、戻り値（応答文字列）をそのまま返す
         return self.responder.response(input)
     
     def get_responder_name(self):
@@ -47,5 +43,49 @@ class Pityna:
 class Responder:
     """応答クラス
     """
-    def ___init___(self,name):
+    def __init__(self,name):
+        """Responderオブジェクトの名前をnameに格納
         
+        Args:
+            name(str) :Responderオブジェクトの名前
+        """
+        self.name = name
+    def response(self, input):
+        """応答文字列を作って返す
+
+        Args:
+            input(str):ユーザーが入力した文字列
+        Returns:
+            str:   応答メッセージ
+        """
+        #オウム返しの返答をする
+        return "{}ってなに？".format(input)
+###########################################################################
+#実行ブロック
+###########################################################################
+def prompt(obj):
+    """ピティナのプロンプトを作る関数
+    
+    Args:
+            obj(object):呼び出し元のPitynaオブジェクト
+    Returns:
+            str:ピティナのプロンプト用の文字列
+    """
+    #「'Pitynaオブジェクト名:応答オブジェクト名>'」の文字列を返す
+    return obj.get_name() + ':'  + obj.get_responder_name() + '> '
+#ここからプログラム開始
+#プログラムの情報を表示
+pityna = Pityna('Pityna')
+print('Pityna System prototype : Pityna')
+
+#対話処理開始
+while True:
+    inputs = input(' > ')
+    if not inputs:
+        print('バイバイ')
+        break
+    else:
+        #応答文字列を取得
+        response = pityna.dialogue(inputs)
+        #プロンプトと応答文字列をつなげて表示
+        print(prompt(pityna), response)
