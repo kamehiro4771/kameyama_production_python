@@ -17,4 +17,4 @@ if __name__ == "__main__":
     # 終了時に0が返される
     ret = app.exec()
     # exec()の戻り値をシステムに返してプログラムを終了
-    syss.exit(ret)
+    sys.exit(ret)
