@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 import qt_PitynaUI
-#import Pityna
+import pityna
 
 class MainWindow(QtWidgets.QMainWindow):
     """QtWidgets.QMainWindowを継承したサブクラス
@@ -16,7 +16,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #スーパークラスの__init__()を実行
         super().__init__()
         # Pitynaオブジェクトを生成
- #       self.pityna = pityna.Pityna("pityna")
+        self.pityna = pityna.Pityna("pityna")
         #ラジオボタンの状態を初期化
         self.action = True
         # Ui_MainWindowオブジェクトを生成
@@ -53,10 +53,10 @@ class MainWindow(QtWidgets.QMainWindow):
         ・入力文字列および応答メッセージをログに出力
         """
         #ラインエディットがユーザーの発言を取得
-        value = self.ui.LineEdit.text()
+        value = self.ui.lineEdit.text()
         if not value:
             #未入力の場合は「何？」と表示
-            self.ui.LabelResponce.setText('')
+            self.ui.LabelResponce.setText('なに？')
         else:
             #発言があれば対話オブジェクトを実行
             #ユーザーの発言を引数にしてdialogue()を実行し、応答メッセージを取得
@@ -64,7 +64,7 @@ class MainWindow(QtWidgets.QMainWindow):
             #ピティナの応答メッセージをラベルに出力
             self.ui.LabelResponce.setText(response)
             #プロンプト記号にユーザーの発言を連結してログ用のリストに出力
-            self.putlog('>'+value)
+            self.putlog('> '+value)
             #ピティナのプロンプト記号に応答メッセージを連結してログ用のリストに出力
             self.putlog(self.prompt() + response)
             #QLineEditクラスのclear()メソッドでラインエディットのテキストをクリア
