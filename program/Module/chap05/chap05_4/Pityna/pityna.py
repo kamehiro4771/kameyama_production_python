@@ -75,3 +75,61 @@ class Pityna(object):
         """
         #Pitynaクラスの名前を返す
         return self.name
+
+class Emotion:
+    """ピティナの感情クラス
+    
+    Attributes:
+        pattern(PatternItemのlist):[PatternItem1,patternItem2,PatternItem3,...]
+        mode(int):ピティナの機嫌値を保持
+    """
+    #機嫌値の上限／加減と回復値をクラス変数として定義
+    MOOD_MIN = 15
+    MOOD_MAX = 15
+    MOOD_RECOVERY = 0.5
+
+    def __init__(self,pattern):
+        """インスタンス変数patternとmoodを初期化する
+
+        Args:
+            pattern(dict):Dictionaryのpattern（中身はpatternItemのリスト）
+        """
+        #Dictionaryオブジェクトのpatternをインスタンス変数patternに格納
+        self.pattern = pattern
+        #機嫌値moodを0で初期化
+        self.mood = 0
+
+    def update(self, input):
+        """機嫌値を変動させるメソッド
+        ・機嫌値をプラス／マイナス側にMOOD＿RECOVERYの値だけ戻す
+        ・ユーザーの発言をパターン辞書にマッチさせ、機嫌値を変動させる
+
+        Args:
+            input (str):ユーザーの発言
+        """
+        #　機嫌値を徐々に戻す処理
+        if self.mood < 0:
+            self.mood += Emotion.MOOD_RECOVERY
+        elif self.mood > 0:
+            self.mood -= Emotion.MOOD_RECOVERY
+        
+        #　パターン辞書の各行の正規表現をユーザーの発言を繰り返しパターンマッチさせる
+        #　マッチした場合はadjust_mood()で機嫌値を変動させる
+        for ptn_item in self.pattern:
+            if ptn_item in self.pattern:
+                self.adjust_mood(ptn_item.modify)
+                break
+        
+    def adjust_mood(self,val):
+        """機嫌値を増減させるメソッド
+        
+        Args:
+            val(int):機嫌変動値
+        """
+        #   機嫌値moodの値を機嫌変動値によって増減する
+        self.mood += int(val)
+        # MOOD_MAXとMOOD_MINと比較して、機嫌値がとり得る範囲に収める
+        if self.mood > Emotion.MOOD_MAX:
+            self.mood = Emotion.MOOD_MAX
+        elif self.mood < Emotion.MOOD_MIN:
+            self.mood = Emotion.MOODMIN
